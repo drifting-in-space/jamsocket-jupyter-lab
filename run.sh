@@ -1,12 +1,14 @@
 #!/bin/sh
 
-jupyter-lab --generate-config
-echo "c.ServerApp.token = '$JAMSOCKET_JUPYTER_TOKEN'" >> ~/.jupyter/jupyter_lab_config.py
+set -e
 
-# automatically redirect / to a notebook by uncommenting and editing the following line:
-# echo "c.ServerApp.default_url = '/notebooks/[YOUR NOTEBOOK HERE].ipynb'" >> ~/.jupyter/jupyter_notebook_config.py
+/home/jupyter/notebook-env/bin/jupyter-lab --generate-config
 
-# to embed the jupyter notebook in an iframe, uncomment the following line and edit your domain
-# echo "c.ServerApp.tornado_settings = {'headers': {'Content-Security-Policy': 'frame-ancestors \'self\' [YOUR DOMAIN];'}}" >> ~/.jupyter/jupyter_notebook_config.py
+# protect your notebook with a password on the following line:
+JUPYTER_LAB_PASSWORD=""
+echo "c.ServerApp.token = '$JUPYTER_LAB_PASSWORD'" >> ~/.jupyter/jupyter_lab_config.py
 
-jupyter-lab --collaborative --ip 0.0.0.0 --port 8080 --no-browser
+# to embed jupyter lab in an iframe, uncomment the following line and edit your domain
+# echo "c.ServerApp.tornado_settings = {'headers': {'Content-Security-Policy': 'frame-ancestors \'self\' [YOUR DOMAIN];'}}" >> ~/.jupyter/jupyter_lab_config.py
+
+/home/jupyter/notebook-env/bin/jupyter-lab --collaborative --ip 0.0.0.0 --port $PORT --no-browser
